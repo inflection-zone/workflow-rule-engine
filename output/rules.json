@@ -1,0 +1,236 @@
+[
+  {
+    "node": "HTN Protocol Age Eligibility",
+    "rules": [
+      {
+        "conditions": {
+          "all": [
+            {
+              "fact": "Age",
+              "operator": "greaterThanInclusive",
+              "value": 18
+            },
+            {
+              "fact": "Age",
+              "operator": "lessThanInclusive",
+              "value": 80
+            }
+          ]
+        },
+        "event": {
+          "params": {
+            "Message": "Patient is eligible for HTN Diagnosis by age criteria.",
+            "Action": "ExecuteNext",
+            "NextNodeId": "de0dd946-0218-4cbe-9374-640cf14d18a5"
+          }
+        },
+        "rule": "Eligibility_Age_Range_Validity"
+      },
+      {
+        "conditions": {
+          "all": [
+            {
+              "fact": "Age",
+              "operator": "lessThan",
+              "value": 18
+            },
+            {
+              "fact": "Age",
+              "operator": "greaterThan",
+              "value": 80
+            }
+          ]
+        },
+        "event": {
+          "params": {
+            "Message": "Patient is not eligible for HTN diagnosis due to age criteria.",
+            "Action": "Exit",
+            "NextNodeId": null
+          }
+        },
+        "rule": "Age_Not_Elligible"
+      }
+    ]
+  },
+  {
+    "node": "Verify 2 Measurements of blood pressure",
+    "rules": [
+      {
+        "conditions": {
+          "all": [
+            {
+              "fact": "BPMeasurementCount",
+              "operator": "greaterThanInclusive",
+              "value": 2
+            }
+          ]
+        },
+        "event": {
+          "params": {
+            "Message": "Blood Pressure measurements count is enough for HTN diagnosis.",
+            "Action": "ExecuteNext",
+            "NextNodeId": "85b107fa-4d8b-4100-9e64-0117feb1dff1"
+          }
+        },
+        "rule": "Enough_BP_Measurements"
+      },
+      {
+        "conditions": {
+          "all": [
+            {
+              "fact": "BPMeasurementCount",
+              "operator": "lessThan",
+              "value": 2
+            }
+          ]
+        },
+        "event": {
+          "params": {
+            "Message": "Blood Pressure measurements count is not enough for HTN diagnosis. 2 or more measurements on different days are needed.",
+            "Action": "WaitForInputEvents",
+            "NextNodeId": null
+          }
+        },
+        "rule": "Not_Enough_BP_Measurements"
+      }
+    ]
+  },
+  {
+    "node": "Analyze blood pressure values",
+    "rules": [
+      {
+        "conditions": {
+          "any": [
+            {
+              "all": [
+                {
+                  "fact": "SystolicBP",
+                  "operator": "greaterThanInclusive",
+                  "value": 140
+                },
+                {
+                  "fact": "SystolicBP",
+                  "operator": "lessThanInclusive",
+                  "value": 159
+                }
+              ]
+            },
+            {
+              "all": [
+                {
+                  "fact": "DiastolicBP",
+                  "operator": "greaterThanInclusive",
+                  "value": 90
+                },
+                {
+                  "fact": "DiastolicBP",
+                  "operator": "lessThanInclusive",
+                  "value": 99
+                }
+              ]
+            }
+          ]
+        },
+        "event": {
+          "params": {
+            "Message": "Moderate: Evaluate risk factors (Modifiable and Non-modifiable).",
+            "Action": "ExecuteNext",
+            "NextNodeId": "a007d95a-dee1-40bf-adf8-a0d5d00ae3d6"
+          }
+        },
+        "rule": "BP_Systolic_GT_140_LT_159_And_Diastolic_GT_90_LT_99"
+      },
+      {
+        "conditions": {
+          "any": [
+            {
+              "all": [
+                {
+                  "fact": "SystolicBP",
+                  "operator": "greaterThanInclusive",
+                  "value": 160
+                },
+                {
+                  "fact": "SystolicBP",
+                  "operator": "lessThanInclusive",
+                  "value": 179
+                }
+              ]
+            },
+            {
+              "all": [
+                {
+                  "fact": "DiastolicBP",
+                  "operator": "greaterThanInclusive",
+                  "value": 100
+                },
+                {
+                  "fact": "DiastolicBP",
+                  "operator": "lessThanInclusive",
+                  "value": 109
+                }
+              ]
+            }
+          ]
+        },
+        "event": {
+          "params": {
+            "Message": "High: Evaluate risk factors (Modifiable and Non-modifiable).",
+            "Action": "ExecuteNext",
+            "NextNodeId": "312de01c-bcfd-4b5f-97cb-82dc0c642097"
+          }
+        },
+        "rule": "BP_Systolic_GT_160_LT_179_And_Diastolic_GT_100_LT_109"
+      },
+      {
+        "conditions": {
+          "any": [
+            {
+              "all": [
+                {
+                  "fact": "SystolicBP",
+                  "operator": "greaterThanInclusive",
+                  "value": 180
+                }
+              ]
+            },
+            {
+              "all": [
+                {
+                  "fact": "DiastolicBP",
+                  "operator": "greaterThanInclusive",
+                  "value": 110
+                },
+                {
+                  "fact": "DiastolicBP",
+                  "operator": "lessThanInclusive",
+                  "value": 119
+                }
+              ]
+            }
+          ]
+        },
+        "event": {
+          "params": {
+            "Message": "Severe: Evaluate Hypertension severity.",
+            "Action": "ExecuteNext",
+            "NextNodeId": "38a06f85-4579-49de-9e9a-051427f1aff9"
+          }
+        },
+        "rule": "BP_Systolic_GT_180_And_Diastolic_GT_110"
+      }
+    ]
+  },
+  {
+    "node": "Moderate: Evaluate risk factors (Modifiable and non-modifiable)",
+    "rules": []
+  },
+  {
+    "node": "High: Evaluate risk factors (Modifiable and non-modifiable)",
+    "rules": []
+  },
+  {
+    "node": "Severe: Evaluate hypertension severity",
+    "rules": []
+  }
+]

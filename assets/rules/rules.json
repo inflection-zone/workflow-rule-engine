@@ -1,0 +1,16 @@
+{
+    "conditions": {
+        "all": [
+            {
+                "fact": "account-information",
+                "operator": "equal",
+                "value": true
+            },
+            {
+                "fact": "date",
+                "operator": "lessThan",
+                "value": 1467331200000
+            }]
+    },
+    "event": { "type": "microsoft-employees" }
+}

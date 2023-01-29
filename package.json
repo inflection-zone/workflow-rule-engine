@@ -1,0 +1,28 @@
+{
+  "name": "rean-rules-engine",
+  "version": "1.0.0",
+  "description": "Rule engine module for all rean projects",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsc && ts-node --files ./src/index.ts"
+  },
+  "keywords": [
+    "REAN",
+    "rules",
+    "rule-engine"
+  ],
+  "author": "Kiran Kharade",
+  "license": "ISC",
+  "dependencies": {
+    "@types/color": "^3.0.3",
+    "@types/node": "^18.11.18",
+    "@types/uuid": "^9.0.0",
+    "json-rules-engine": "^6.1.2",
+    "lodash": "^4.17.21",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.191"
+  }
+}

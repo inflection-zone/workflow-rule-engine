@@ -1,0 +1,576 @@
+{
+  "id": "3394c3ed-63ad-4274-9b03-598c7b369809",
+  "Name": "HTN Diagnosis Protocol Schema",
+  "Nodes": [
+    {
+      "id": "bca0daa5-69ca-44ab-ad63-9c960b0a5101",
+      "SchemaId": "3394c3ed-63ad-4274-9b03-598c7b369809",
+      "ParentNodeId": null,
+      "Name": "HTN Protocol Age Eligibility",
+      "Description": "Check whether patient is eligible to process further.",
+      "Rules": [
+        {
+          "id": "b69c39d5-cb8a-4f5d-a699-70908cd9631c",
+          "Name": "Eligibility_Age_Range_Validity",
+          "NodeId": "bca0daa5-69ca-44ab-ad63-9c960b0a5101",
+          "Condition": {
+            "id": "1e083556-a3e0-4cb9-923d-b62c0a0b5f9e",
+            "ParentConditionId": null,
+            "RuleId": "b69c39d5-cb8a-4f5d-a699-70908cd9631c",
+            "IsComposite": true,
+            "Children": [
+              {
+                "id": "4bb31860-e1a9-458f-9740-b91ef1ac3566",
+                "ParentConditionId": "1e083556-a3e0-4cb9-923d-b62c0a0b5f9e",
+                "RuleId": "b69c39d5-cb8a-4f5d-a699-70908cd9631c",
+                "IsComposite": false,
+                "Children": [],
+                "Fact": "Age",
+                "Operator": "GreaterThanOrEqual",
+                "DataType": "Integer",
+                "Value": 18
+              },
+              {
+                "id": "1fea9eca-a16c-4a31-841e-fcf5df4109c3",
+                "ParentConditionId": "1e083556-a3e0-4cb9-923d-b62c0a0b5f9e",
+                "RuleId": "b69c39d5-cb8a-4f5d-a699-70908cd9631c",
+                "IsComposite": false,
+                "Children": [],
+                "Fact": "Age",
+                "Operator": "LessThanOrEqual",
+                "DataType": "Integer",
+                "Value": 80
+              }
+            ],
+            "Operator": "And"
+          },
+          "Event": {
+            "id": "7d9c5757-f591-4133-a70c-edb34add3b84",
+            "ParentRuleId": "b69c39d5-cb8a-4f5d-a699-70908cd9631c",
+            "Name": "Eligible for HTN Diagnosis",
+            "Description": "",
+            "Params": {
+              "Message": "Patient is eligible for HTN Diagnosis by age criteria.",
+              "Action": "ExecuteNext",
+              "NextNodeId": "de0dd946-0218-4cbe-9374-640cf14d18a5"
+            }
+          }
+        },
+        {
+          "id": "5ecb881a-100b-4fcf-a9ff-51005eba0d14",
+          "Name": "Age_Not_Elligible",
+          "NodeId": "bca0daa5-69ca-44ab-ad63-9c960b0a5101",
+          "Condition": {
+            "id": "0d8c2db6-7276-422d-aedd-a75962e7abab",
+            "ParentConditionId": null,
+            "RuleId": "5ecb881a-100b-4fcf-a9ff-51005eba0d14",
+            "IsComposite": true,
+            "Children": [
+              {
+                "id": "58c6bd75-19f5-48b6-94f5-1b46142e5cf2",
+                "ParentConditionId": "0d8c2db6-7276-422d-aedd-a75962e7abab",
+                "RuleId": "5ecb881a-100b-4fcf-a9ff-51005eba0d14",
+                "IsComposite": false,
+                "Children": [],
+                "Fact": "Age",
+                "Operator": "LessThan",
+                "DataType": "Integer",
+                "Value": 18
+              },
+              {
+                "id": "7e9fc4ce-0236-4d85-abff-6f94576fceb6",
+                "ParentConditionId": "0d8c2db6-7276-422d-aedd-a75962e7abab",
+                "RuleId": "5ecb881a-100b-4fcf-a9ff-51005eba0d14",
+                "IsComposite": false,
+                "Children": [],
+                "Fact": "Age",
+                "Operator": "GreaterThan",
+                "DataType": "Integer",
+                "Value": 80
+              }
+            ],
+            "Operator": "And"
+          },
+          "Event": {
+            "id": "2db0022a-8bd0-4a41-b16c-36cd6dd06345",
+            "ParentRuleId": "5ecb881a-100b-4fcf-a9ff-51005eba0d14",
+            "Name": "Non-Eligible for HTN Diagnosis",
+            "Description": "",
+            "Params": {
+              "Message": "Patient is not eligible for HTN diagnosis due to age criteria.",
+              "Action": "Exit",
+              "NextNodeId": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "de0dd946-0218-4cbe-9374-640cf14d18a5",
+      "SchemaId": "3394c3ed-63ad-4274-9b03-598c7b369809",
+      "ParentNodeId": "bca0daa5-69ca-44ab-ad63-9c960b0a5101",
+      "Name": "Verify 2 Measurements of blood pressure",
+      "Description": "Check BP for two different days at health unit.",
+      "Rules": [
+        {
+          "id": "08ecf649-7a38-42f7-9ded-861a65f7089b",
+          "Name": "Enough_BP_Measurements",
+          "NodeId": "de0dd946-0218-4cbe-9374-640cf14d18a5",
+          "Condition": {
+            "id": "5f72d497-5312-48e8-9ec3-84bde69c2038",
+            "ParentConditionId": null,
+            "RuleId": "08ecf649-7a38-42f7-9ded-861a65f7089b",
+            "IsComposite": true,
+            "Children": [
+              {
+                "id": "18c66614-e01b-41bc-b43d-99df096e67b5",
+                "ParentConditionId": "5f72d497-5312-48e8-9ec3-84bde69c2038",
+                "RuleId": "08ecf649-7a38-42f7-9ded-861a65f7089b",
+                "IsComposite": false,
+                "Children": [],
+                "Fact": "BPMeasurementCount",
+                "Operator": "GreaterThanOrEqual",
+                "DataType": "Integer",
+                "Value": 2
+              }
+            ],
+            "Operator": "And"
+          },
+          "Event": {
+            "id": "9aad440b-87bd-4fe9-959f-d90b1f450267",
+            "ParentRuleId": "08ecf649-7a38-42f7-9ded-861a65f7089b",
+            "Name": "Analyze BP values",
+            "Description": "Proceed further to analyze blood pressure values.",
+            "Params": {
+              "Message": "Blood Pressure measurements count is enough for HTN diagnosis.",
+              "Action": "ExecuteNext",
+              "NextNodeId": "85b107fa-4d8b-4100-9e64-0117feb1dff1"
+            }
+          }
+        },
+        {
+          "id": "8b24e309-9cde-4b95-8710-eb0b5b08b651",
+          "Name": "Not_Enough_BP_Measurements",
+          "NodeId": "de0dd946-0218-4cbe-9374-640cf14d18a5",
+          "Condition": {
+            "id": "639d4b3b-56df-4be2-8eff-de0fbc3c05ea",
+            "ParentConditionId": null,
+            "RuleId": "8b24e309-9cde-4b95-8710-eb0b5b08b651",
+            "IsComposite": true,
+            "Children": [
+              {
+                "id": "6013da63-76f5-4dc5-b94f-8e83e1b6ed95",
+                "ParentConditionId": "639d4b3b-56df-4be2-8eff-de0fbc3c05ea",
+                "RuleId": "8b24e309-9cde-4b95-8710-eb0b5b08b651",
+                "IsComposite": false,
+                "Children": [],
+                "Fact": "BPMeasurementCount",
+                "Operator": "LessThan",
+                "DataType": "Integer",
+                "Value": 2
+              }
+            ],
+            "Operator": "And"
+          },
+          "Event": {
+            "id": "1f7ca859-6ee5-41e1-947a-ee28f1a0c6ae",
+            "ParentRuleId": "8b24e309-9cde-4b95-8710-eb0b5b08b651",
+            "Name": "Blood Pressure measurements count is not enough. Wait for enough measurements",
+            "Description": "Wait for input events to check that there are atleast 2 or kore BP measurements.",
+            "Params": {
+              "Message": "Blood Pressure measurements count is not enough for HTN diagnosis. 2 or more measurements on different days are needed.",
+              "Action": "WaitForInputEvents",
+              "NextNodeId": null
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "85b107fa-4d8b-4100-9e64-0117feb1dff1",
+      "SchemaId": "3394c3ed-63ad-4274-9b03-598c7b369809",
+      "ParentNodeId": "de0dd946-0218-4cbe-9374-640cf14d18a5",
+      "Name": "Analyze blood pressure values",
+      "Description": "Analyze blood pressure values.",
+      "Rules": [
+        {
+          "id": "b81fcba9-7dc7-4e01-9f2c-91d17e601190",
+          "Name": "BP_Systolic_GT_140_LT_159_And_Diastolic_GT_90_LT_99",
+          "NodeId": "85b107fa-4d8b-4100-9e64-0117feb1dff1",
+          "Condition": {
+            "id": "967a780e-ad17-4bec-93b0-6b96a6474f26",
+            "ParentConditionId": null,
+            "RuleId": "b81fcba9-7dc7-4e01-9f2c-91d17e601190",
+            "IsComposite": true,
+            "Children": [
+              {
+                "id": "5c596357-ef5b-404a-a11f-2537a0824c07",
+                "ParentConditionId": "967a780e-ad17-4bec-93b0-6b96a6474f26",
+                "RuleId": "b81fcba9-7dc7-4e01-9f2c-91d17e601190",
+                "IsComposite": true,
+                "Children": [
+                  {
+                    "id": "22cb50df-2bd3-41a0-bb85-08bda590b772",
+                    "ParentConditionId": "5c596357-ef5b-404a-a11f-2537a0824c07",
+                    "RuleId": "b81fcba9-7dc7-4e01-9f2c-91d17e601190",
+                    "IsComposite": false,
+                    "Children": [],
+                    "Fact": "SystolicBP",
+                    "Operator": "GreaterThanOrEqual",
+                    "DataType": "Integer",
+                    "Value": 140
+                  },
+                  {
+                    "id": "8f5ccc81-09b1-4177-836d-084bd93d4acc",
+                    "ParentConditionId": "5c596357-ef5b-404a-a11f-2537a0824c07",
+                    "RuleId": "b81fcba9-7dc7-4e01-9f2c-91d17e601190",
+                    "IsComposite": false,
+                    "Children": [],
+                    "Fact": "SystolicBP",
+                    "Operator": "LessThanOrEqual",
+                    "DataType": "Integer",
+                    "Value": 159
+                  }
+                ],
+                "Operator": "And"
+              },
+              {
+                "id": "6b91764b-d07f-499a-8a46-65972250d5b0",
+                "ParentConditionId": "967a780e-ad17-4bec-93b0-6b96a6474f26",
+                "RuleId": "b81fcba9-7dc7-4e01-9f2c-91d17e601190",
+                "IsComposite": true,
+                "Children": [
+                  {
+                    "id": "c2e13ab0-d1af-4577-a625-ac421103fa23",
+                    "ParentConditionId": "6b91764b-d07f-499a-8a46-65972250d5b0",
+                    "RuleId": "b81fcba9-7dc7-4e01-9f2c-91d17e601190",
+                    "IsComposite": false,
+                    "Children": [],
+                    "Fact": "DiastolicBP",
+                    "Operator": "GreaterThanOrEqual",
+                    "DataType": "Integer",
+                    "Value": 90
+                  },
+                  {
+                    "id": "79580fe3-3eab-4290-8101-9d101b88e4a7",
+                    "ParentConditionId": "6b91764b-d07f-499a-8a46-65972250d5b0",
+                    "RuleId": "b81fcba9-7dc7-4e01-9f2c-91d17e601190",
+                    "IsComposite": false,
+                    "Children": [],
+                    "Fact": "DiastolicBP",
+                    "Operator": "LessThanOrEqual",
+                    "DataType": "Integer",
+                    "Value": 99
+                  }
+                ],
+                "Operator": "And"
+              }
+            ],
+            "Operator": "Or"
+          },
+          "Event": {
+            "id": "3cdb99f8-0482-492e-bf6b-4d485634c179",
+            "ParentRuleId": "b81fcba9-7dc7-4e01-9f2c-91d17e601190",
+            "Name": "Moderate: Evaluate risk factors (Modifiable and Non-modifiable",
+            "Description": "Evaluate risk factors.",
+            "Params": {
+              "Message": "Moderate: Evaluate risk factors (Modifiable and Non-modifiable).",
+              "Action": "ExecuteNext",
+              "NextNodeId": "a007d95a-dee1-40bf-adf8-a0d5d00ae3d6"
+            }
+          }
+        },
+        {
+          "id": "0bf058d9-82f8-4439-b2e8-8c823f35fd85",
+          "Name": "BP_Systolic_GT_160_LT_179_And_Diastolic_GT_100_LT_109",
+          "NodeId": "85b107fa-4d8b-4100-9e64-0117feb1dff1",
+          "Condition": {
+            "id": "4a27a6f1-cf56-4535-9eda-e02847652ebe",
+            "ParentConditionId": null,
+            "RuleId": "0bf058d9-82f8-4439-b2e8-8c823f35fd85",
+            "IsComposite": true,
+            "Children": [
+              {
+                "id": "6c3b1f39-30d8-405a-82cd-ccda70e94601",
+                "ParentConditionId": "4a27a6f1-cf56-4535-9eda-e02847652ebe",
+                "RuleId": "0bf058d9-82f8-4439-b2e8-8c823f35fd85",
+                "IsComposite": true,
+                "Children": [
+                  {
+                    "id": "1f8a3b1b-0b65-4a8c-9761-1934570c5981",
+                    "ParentConditionId": "6c3b1f39-30d8-405a-82cd-ccda70e94601",
+                    "RuleId": "0bf058d9-82f8-4439-b2e8-8c823f35fd85",
+                    "IsComposite": false,
+                    "Children": [],
+                    "Fact": "SystolicBP",
+                    "Operator": "GreaterThanOrEqual",
+                    "DataType": "Integer",
+                    "Value": 160
+                  },
+                  {
+                    "id": "d7e8d2a6-1f96-4063-a5f5-78d103e043ef",
+                    "ParentConditionId": "6c3b1f39-30d8-405a-82cd-ccda70e94601",
+                    "RuleId": "0bf058d9-82f8-4439-b2e8-8c823f35fd85",
+                    "IsComposite": false,
+                    "Children": [],
+                    "Fact": "SystolicBP",
+                    "Operator": "LessThanOrEqual",
+                    "DataType": "Integer",
+                    "Value": 179
+                  }
+                ],
+                "Operator": "And"
+              },
+              {
+                "id": "3fcd5416-669d-4774-9c7a-2356b7f75c17",
+                "ParentConditionId": "4a27a6f1-cf56-4535-9eda-e02847652ebe",
+                "RuleId": "0bf058d9-82f8-4439-b2e8-8c823f35fd85",
+                "IsComposite": true,
+                "Children": [
+                  {
+                    "id": "214a26f9-e5cd-4599-90b3-30cabf0f9036",
+                    "ParentConditionId": "3fcd5416-669d-4774-9c7a-2356b7f75c17",
+                    "RuleId": "0bf058d9-82f8-4439-b2e8-8c823f35fd85",
+                    "IsComposite": false,
+                    "Children": [],
+                    "Fact": "DiastolicBP",
+                    "Operator": "GreaterThanOrEqual",
+                    "DataType": "Integer",
+                    "Value": 100
+                  },
+                  {
+                    "id": "45ba3e09-6451-4195-8be5-925402953193",
+                    "ParentConditionId": "3fcd5416-669d-4774-9c7a-2356b7f75c17",
+                    "RuleId": "0bf058d9-82f8-4439-b2e8-8c823f35fd85",
+                    "IsComposite": false,
+                    "Children": [],
+                    "Fact": "DiastolicBP",
+                    "Operator": "LessThanOrEqual",
+                    "DataType": "Integer",
+                    "Value": 109
+                  }
+                ],
+                "Operator": "And"
+              }
+            ],
+            "Operator": "Or"
+          },
+          "Event": {
+            "id": "0e777a9a-d1a0-4922-b963-95a1258d4e5e",
+            "ParentRuleId": "0bf058d9-82f8-4439-b2e8-8c823f35fd85",
+            "Name": "Evaluate risk factors (Modifiable and Non-modifiable",
+            "Description": "Evaluate risk factors.",
+            "Params": {
+              "Message": "High: Evaluate risk factors (Modifiable and Non-modifiable).",
+              "Action": "ExecuteNext",
+              "NextNodeId": "312de01c-bcfd-4b5f-97cb-82dc0c642097"
+            }
+          }
+        },
+        {
+          "id": "d3b3652f-87c5-43ff-b9f1-281eee6134c7",
+          "Name": "BP_Systolic_GT_180_And_Diastolic_GT_110",
+          "NodeId": "85b107fa-4d8b-4100-9e64-0117feb1dff1",
+          "Condition": {
+            "id": "3f68d9f4-a1d7-4998-b1ce-a55a968240b6",
+            "ParentConditionId": null,
+            "RuleId": "d3b3652f-87c5-43ff-b9f1-281eee6134c7",
+            "IsComposite": true,
+            "Children": [
+              {
+                "id": "b5f2c4b5-1d0f-426c-bdfe-787a34f3137e",
+                "ParentConditionId": "3f68d9f4-a1d7-4998-b1ce-a55a968240b6",
+                "RuleId": "d3b3652f-87c5-43ff-b9f1-281eee6134c7",
+                "IsComposite": true,
+                "Children": [
+                  {
+                    "id": "71cc4062-ea61-4cbb-9f5d-07bea6ec0558",
+                    "ParentConditionId": "b5f2c4b5-1d0f-426c-bdfe-787a34f3137e",
+                    "RuleId": "d3b3652f-87c5-43ff-b9f1-281eee6134c7",
+                    "IsComposite": false,
+                    "Children": [],
+                    "Fact": "SystolicBP",
+                    "Operator": "GreaterThanOrEqual",
+                    "DataType": "Integer",
+                    "Value": 180
+                  }
+                ],
+                "Operator": "And"
+              },
+              {
+                "id": "f9af3163-ed8a-485e-abd5-136cfcafcf70",
+                "ParentConditionId": "3f68d9f4-a1d7-4998-b1ce-a55a968240b6",
+                "RuleId": "d3b3652f-87c5-43ff-b9f1-281eee6134c7",
+                "IsComposite": true,
+                "Children": [
+                  {
+                    "id": "97e59135-8eed-448b-9e01-54b5a49c4fe7",
+                    "ParentConditionId": "f9af3163-ed8a-485e-abd5-136cfcafcf70",
+                    "RuleId": "d3b3652f-87c5-43ff-b9f1-281eee6134c7",
+                    "IsComposite": false,
+                    "Children": [],
+                    "Fact": "DiastolicBP",
+                    "Operator": "GreaterThanOrEqual",
+                    "DataType": "Integer",
+                    "Value": 110
+                  },
+                  {
+                    "id": "389eea63-a5e0-4926-b855-f0967c278685",
+                    "ParentConditionId": "f9af3163-ed8a-485e-abd5-136cfcafcf70",
+                    "RuleId": "d3b3652f-87c5-43ff-b9f1-281eee6134c7",
+                    "IsComposite": false,
+                    "Children": [],
+                    "Fact": "DiastolicBP",
+                    "Operator": "LessThanOrEqual",
+                    "DataType": "Integer",
+                    "Value": 119
+                  }
+                ],
+                "Operator": "And"
+              }
+            ],
+            "Operator": "Or"
+          },
+          "Event": {
+            "id": "ac7998ee-2e28-4667-a70f-ce46e8485fc5",
+            "ParentRuleId": "d3b3652f-87c5-43ff-b9f1-281eee6134c7",
+            "Name": "Evaluate Hypertension severity",
+            "Description": "Evaluate severity of very high blood pressure values.",
+            "Params": {
+              "Message": "Severe: Evaluate Hypertension severity.",
+              "Action": "ExecuteNext",
+              "NextNodeId": "38a06f85-4579-49de-9e9a-051427f1aff9"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "id": "a007d95a-dee1-40bf-adf8-a0d5d00ae3d6",
+      "SchemaId": "3394c3ed-63ad-4274-9b03-598c7b369809",
+      "ParentNodeId": "85b107fa-4d8b-4100-9e64-0117feb1dff1",
+      "Name": "Moderate: Evaluate risk factors (Modifiable and non-modifiable)",
+      "Description": "Evaluate risk factors (Modifiable and non-modifiable) for moderate values of BP.",
+      "Rules": []
+    },
+    {
+      "id": "312de01c-bcfd-4b5f-97cb-82dc0c642097",
+      "SchemaId": "3394c3ed-63ad-4274-9b03-598c7b369809",
+      "ParentNodeId": "85b107fa-4d8b-4100-9e64-0117feb1dff1",
+      "Name": "High: Evaluate risk factors (Modifiable and non-modifiable)",
+      "Description": "Evaluate risk factors (Modifiable and non-modifiable) for high values of BP.",
+      "Rules": []
+    },
+    {
+      "id": "38a06f85-4579-49de-9e9a-051427f1aff9",
+      "SchemaId": "3394c3ed-63ad-4274-9b03-598c7b369809",
+      "ParentNodeId": "85b107fa-4d8b-4100-9e64-0117feb1dff1",
+      "Name": "Severe: Evaluate hypertension severity",
+      "Description": "Evaluate HT severity for severe BP values.",
+      "Rules": []
+    }
+  ],
+  "RootNode": {
+    "id": "bca0daa5-69ca-44ab-ad63-9c960b0a5101",
+    "SchemaId": "3394c3ed-63ad-4274-9b03-598c7b369809",
+    "ParentNodeId": null,
+    "Name": "HTN Protocol Age Eligibility",
+    "Description": "Check whether patient is eligible to process further.",
+    "Rules": [
+      {
+        "id": "b69c39d5-cb8a-4f5d-a699-70908cd9631c",
+        "Name": "Eligibility_Age_Range_Validity",
+        "NodeId": "bca0daa5-69ca-44ab-ad63-9c960b0a5101",
+        "Condition": {
+          "id": "1e083556-a3e0-4cb9-923d-b62c0a0b5f9e",
+          "ParentConditionId": null,
+          "RuleId": "b69c39d5-cb8a-4f5d-a699-70908cd9631c",
+          "IsComposite": true,
+          "Children": [
+            {
+              "id": "4bb31860-e1a9-458f-9740-b91ef1ac3566",
+              "ParentConditionId": "1e083556-a3e0-4cb9-923d-b62c0a0b5f9e",
+              "RuleId": "b69c39d5-cb8a-4f5d-a699-70908cd9631c",
+              "IsComposite": false,
+              "Children": [],
+              "Fact": "Age",
+              "Operator": "GreaterThanOrEqual",
+              "DataType": "Integer",
+              "Value": 18
+            },
+            {
+              "id": "1fea9eca-a16c-4a31-841e-fcf5df4109c3",
+              "ParentConditionId": "1e083556-a3e0-4cb9-923d-b62c0a0b5f9e",
+              "RuleId": "b69c39d5-cb8a-4f5d-a699-70908cd9631c",
+              "IsComposite": false,
+              "Children": [],
+              "Fact": "Age",
+              "Operator": "LessThanOrEqual",
+              "DataType": "Integer",
+              "Value": 80
+            }
+          ],
+          "Operator": "And"
+        },
+        "Event": {
+          "id": "7d9c5757-f591-4133-a70c-edb34add3b84",
+          "ParentRuleId": "b69c39d5-cb8a-4f5d-a699-70908cd9631c",
+          "Name": "Eligible for HTN Diagnosis",
+          "Description": "",
+          "Params": {
+            "Message": "Patient is eligible for HTN Diagnosis by age criteria.",
+            "Action": "ExecuteNext",
+            "NextNodeId": "de0dd946-0218-4cbe-9374-640cf14d18a5"
+          }
+        }
+      },
+      {
+        "id": "5ecb881a-100b-4fcf-a9ff-51005eba0d14",
+        "Name": "Age_Not_Elligible",
+        "NodeId": "bca0daa5-69ca-44ab-ad63-9c960b0a5101",
+        "Condition": {
+          "id": "0d8c2db6-7276-422d-aedd-a75962e7abab",
+          "ParentConditionId": null,
+          "RuleId": "5ecb881a-100b-4fcf-a9ff-51005eba0d14",
+          "IsComposite": true,
+          "Children": [
+            {
+              "id": "58c6bd75-19f5-48b6-94f5-1b46142e5cf2",
+              "ParentConditionId": "0d8c2db6-7276-422d-aedd-a75962e7abab",
+              "RuleId": "5ecb881a-100b-4fcf-a9ff-51005eba0d14",
+              "IsComposite": false,
+              "Children": [],
+              "Fact": "Age",
+              "Operator": "LessThan",
+              "DataType": "Integer",
+              "Value": 18
+            },
+            {
+              "id": "7e9fc4ce-0236-4d85-abff-6f94576fceb6",
+              "ParentConditionId": "0d8c2db6-7276-422d-aedd-a75962e7abab",
+              "RuleId": "5ecb881a-100b-4fcf-a9ff-51005eba0d14",
+              "IsComposite": false,
+              "Children": [],
+              "Fact": "Age",
+              "Operator": "GreaterThan",
+              "DataType": "Integer",
+              "Value": 80
+            }
+          ],
+          "Operator": "And"
+        },
+        "Event": {
+          "id": "2db0022a-8bd0-4a41-b16c-36cd6dd06345",
+          "ParentRuleId": "5ecb881a-100b-4fcf-a9ff-51005eba0d14",
+          "Name": "Non-Eligible for HTN Diagnosis",
+          "Description": "",
+          "Params": {
+            "Message": "Patient is not eligible for HTN diagnosis due to age criteria.",
+            "Action": "Exit",
+            "NextNodeId": null
+          }
+        }
+      }
+    ]
+  }
+}

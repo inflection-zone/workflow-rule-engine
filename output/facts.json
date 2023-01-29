@@ -1,0 +1,33 @@
+[
+  {
+    "node": "HTN Protocol Age Eligibility",
+    "facts": [
+      "Age"
+    ]
+  },
+  {
+    "node": "Verify 2 Measurements of blood pressure",
+    "facts": [
+      "BPMeasurementCount"
+    ]
+  },
+  {
+    "node": "Analyze blood pressure values",
+    "facts": [
+      "SystolicBP",
+      "DiastolicBP"
+    ]
+  },
+  {
+    "node": "Moderate: Evaluate risk factors (Modifiable and non-modifiable)",
+    "facts": []
+  },
+  {
+    "node": "High: Evaluate risk factors (Modifiable and non-modifiable)",
+    "facts": []
+  },
+  {
+    "node": "Severe: Evaluate hypertension severity",
+    "facts": []
+  }
+]
